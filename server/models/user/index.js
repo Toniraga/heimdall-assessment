@@ -42,7 +42,16 @@ const userSchema = new Schema(
 			},
 			select: false,
 		},
-		borrowedbooks: [Object],
+		borrowedbooks: {
+			type: [
+				{
+					type: Schema.Types.ObjectId,
+					ref: 'Book',
+					default: null,
+				},
+			],
+			validate: [arrayLimit, '{PATH} exceeds the limit of 2'],
+		},
 		joined: { type: Date, default: Date.now() },
 		slug: { type: String, unique: true },
 		passwordChangedAt: Date,
@@ -51,6 +60,10 @@ const userSchema = new Schema(
 	},
 	options
 );
+
+function arrayLimit(val) {
+	return val.length <= 2;
+}
 
 userSchema.pre('save', function (next) {
 	this.slug = slugify(

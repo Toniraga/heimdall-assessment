@@ -1,8 +1,10 @@
 import React from 'react';
 import Book from '../components/Book';
-// import { ElrButton } from '../components/Button';
+import { useFetchBooks } from '../hooks/books';
 
 const Library = () => {
+  const { data, loading } = useFetchBooks();
+  console.log(data, loading);
 
   return (
     <>
@@ -15,13 +17,16 @@ const Library = () => {
         </div>
         <div className="w-5/6 md:w-3/5 mx-auto">
           <div className="grid grid-cols-medium-auto-fill md:grid-cols-auto-fill">
-            {[0, 1, 2, 3].map((_, i) => {
-            return (
-              <div key={i}> 
-                <Book />
-              </div>
-            )
-          })}
+          {data ? (
+            data?.map((datum, i) => {
+              return (
+                <div key={i}> 
+                  <Book book={datum} />
+                </div>
+              )
+            })) : (
+              <div> Sorry, We couldn't fint any books </div>
+          )}
           </div>
         </div>
       </div>

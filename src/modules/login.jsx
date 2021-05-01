@@ -1,4 +1,4 @@
-// import { httpLogin } from 'app/api/auth';
+import { httpLogin } from '../api/auth';
 import React, { useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
@@ -18,13 +18,12 @@ const Login = () => {
     evt.preventDefault();
     try {
       await queryClient.fetchQuery('user', () =>
-        // httpLogin({
-        ({
+        httpLogin({
           email: formState.email,
           password: formState.password,
         })
       );
-      return history.push('/library');
+      return history.push('/lib');
     } catch (error) {
       // display error here
       return error;

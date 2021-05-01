@@ -1,4 +1,5 @@
 const Book = require('../models/book');
+const User = require('../models/user');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
@@ -7,17 +8,15 @@ const update = catchAsync(async (req, res, next) => {
 		return next(new AppError('This route is not for password updates.', 400));
 	}
 
-	// Update book
-	const updatedBook = await Book.findByIdAndUpdate(req.user.id, req.body, {
+	// Update user
+	const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, {
 		new: true,
 		runValidators: true,
 	});
 
 	res.status(200).json({
 		status: 'success',
-		data: {
-			book: updatedBook,
-		},
+		user: updatedUser,
 	});
 });
 

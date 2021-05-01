@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config({ path: '../config.env' });
 const app = require('./app.js');
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
 
 const DB = process.env.DATABASE_LOCAL;
 
@@ -17,8 +17,6 @@ mongoose
 	})
 	.then(() => console.log('DB connection successful!'))
 	.catch((err) => console.log(err));
-
-app.get('/api/', (_, res) => res.send('shuu! go away....'));
 
 app.listen(PORT, () => {
 	console.log(`Server listening on ${PORT}`);

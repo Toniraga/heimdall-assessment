@@ -16,6 +16,9 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/api/', routes);
 
+app.get('/', (_, res) => res.send('shuu! go away....'));
+
+app.get('*', (_, res) => res.send('Welcome to our server....'));
 app.use(express.json());
 
 module.exports = app;
