@@ -19,10 +19,6 @@ const BorrowedBook = () => {
       </div>
       <div className="flex flex-col">
         <ElrButton
-          text="Borrow"
-          className="bg-elr-black text-white text-lg mt-4 mb-2"
-        />
-        <ElrButton
           text="Return"
           className="bg-elr-green text-white text-lg mt-4 mb-2"
         />
