@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const slugify = require('slugify');
 const validator = require('validator');
 const generateRandomNumber = require('../../utils/generateRandomNumber');
-const { Book } = require('../book/index');
 
 const { Schema } = mongoose;
 const options = {
@@ -43,10 +42,7 @@ const userSchema = new Schema(
 			},
 			select: false,
 		},
-		borrowedbooks: {
-			type: [Book],
-			default: [],
-		},
+		borrowedbooks: [Object],
 		joined: { type: Date, default: Date.now() },
 		slug: { type: String, unique: true },
 		passwordChangedAt: Date,
@@ -78,17 +74,6 @@ userSchema.pre('save', async function (next) {
 	this.password = await bcrypt.hash(this.password, 12);
 	next();
 });
-
-userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
-	if (this.passwordChangedAt) {
-		const changedTimestamp = parseInt(
-			this.passwordChangedAt.getTime() / 1000,
-			10
-		);
-		return JWTTimestamp < changedTimestamp;
-	}
-	return false;
-};
 
 const User = mongoose.model('User', userSchema);
 

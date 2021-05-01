@@ -4,7 +4,7 @@ const {
 	update,
 	getBook,
 	getAllBooks,
-} = require('../controllers/studentController');
+} = require('../controllers/userController');
 
 const router = express.Router();
 
