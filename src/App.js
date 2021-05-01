@@ -1,5 +1,9 @@
 import { ToastContainer } from 'react-toastify';
+import Login from './modules/login';
+import Library from './modules/library';
+import Borrowed from './modules/borrowed';
 import './App.css';
+import { Route, Switch, Redirect } from 'react-router';
 
 const toast = (
 	<ToastContainer
@@ -18,18 +22,12 @@ const toast = (
 function App() {
 	return (
 		<main>
-			<div className="app">
-				<div className="max-w-md mx-auto flex p-6 bg-gray-100 mt-10 rounded-lg shadow-xl">
-					<div className="ml-6 pt-1">
-						<h1 className="text-2xl text-blue-700 leading-tight">
-							Tailwind and Create React App
-						</h1>
-						<p className="text-base text-gray-700 leading-normal">
-							Building apps together
-						</p>
-					</div>
-				</div>
-			</div>
+			<Switch>
+				<Route exact path="/" component={Login} />
+				<Route exact path="/lib" component={Library} />
+				<Route exact path="/borrowed" component={Borrowed} />
+				<Redirect to="/" />
+			</Switch>
 			{toast}
 		</main>
 	);
