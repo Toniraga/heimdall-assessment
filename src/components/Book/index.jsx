@@ -1,14 +1,11 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Axios from '../../Axios.config';
 import { ElrButton } from '../Button';
 
 const Book = ({ book, borrowed }) => {
-  const history = useHistory();
 
   const borrowBook = async (book) => {
-    console.log(borrowed);
     const duplicate = borrowed.length > 0 && borrowed.find(one => one.id === book.id);
     try {
       // Check is book is duplicate or user has reached borrow limit
@@ -20,11 +17,11 @@ const Book = ({ book, borrowed }) => {
       // eslint-disable-next-line no-restricted-globals
       const accept = confirm('Are you sure you want to borrow a book?')
       if (accept) {
-        borrowedClone.push(book)
+        borrowedClone.push(book.id)
         await Axios.init().patch('/update', { borrowedbooks: borrowedClone })
         await Axios.init().patch(`/book/${book.id}`, { quantity: book.quantity - 1 })
       }
-      return history().push('/borrowed');
+      toast.success('book added!', { position: 'top-right' })
     } catch(err) {
       console.log(err);
     }
