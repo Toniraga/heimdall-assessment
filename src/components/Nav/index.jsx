@@ -4,7 +4,8 @@ import { useHistory } from 'react-router-dom';
 const Nav = ({ userId }) => {
   const history = useHistory();
   return (
-    <div className="flex justify-between w-full pt-5 pb-10 px-20">
+    <div 
+      className="flex cursor-pointer justify-between w-full pt-5 pb-10 px-20">
       <h1 className="text-3xl"> BOOK
         <span className="text-elr-purple">Lib</span> 
       </h1>
