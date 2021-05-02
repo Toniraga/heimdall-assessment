@@ -9,7 +9,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const devToolsOpen = true;
+const devToolsOpen = false;
 
 // Create a client
 const queryClient = new QueryClient({
