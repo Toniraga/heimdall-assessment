@@ -17,13 +17,13 @@ const Login = () => {
   const onSubmit = async (evt) => {
     evt.preventDefault();
     try {
-      await queryClient.fetchQuery('user', () =>
+      const data = await queryClient.fetchInfiniteQuery('user', () =>
         httpLogin({
           email: formState.email,
           password: formState.password,
         })
       );
-      return history.push('/lib');
+      return history.push(`/lib?id=${data.pages[0].user.id}`);
     } catch (error) {
       // display error here
       return error;

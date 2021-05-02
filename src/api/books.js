@@ -10,3 +10,14 @@ export const getBooks = async () => {
 		throw new Error(error);
 	}
 };
+
+export const httpBorrowBook = async (payload) => {
+	try {
+		const response = await Axios.init().patch(`/update`, payload);
+		console.log(response.data);
+		return response.data;
+	} catch (error) {
+		toast.error(error.response?.data?.message);
+		throw new Error(error);
+	}
+};

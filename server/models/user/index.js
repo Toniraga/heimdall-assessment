@@ -45,7 +45,7 @@ const userSchema = new Schema(
 		borrowedbooks: {
 			type: [
 				{
-					type: Schema.Types.ObjectId,
+					type: mongoose.SchemaTypes.ObjectId,
 					ref: 'Book',
 					default: null,
 				},

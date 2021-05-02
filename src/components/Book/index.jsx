@@ -1,13 +1,32 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Axios from '../../Axios.config';
 import { ElrButton } from '../Button';
 
-const Book = ({ book }) => {
+const Book = ({ book, borrowed }) => {
+  const history = useHistory();
 
-  const borrowBook = (book) => {
-    // eslint-disable-next-line no-restricted-globals
-    const accept = confirm('Are you sure you want to borrow a book?')
-    if (accept) {
-      alert('Book Added')
+  const borrowBook = async (book) => {
+    console.log(borrowed);
+    const duplicate = borrowed.length > 0 && borrowed.find(one => one.id === book.id);
+    try {
+      // Check is book is duplicate or user has reached borrow limit
+      if (borrowed?.length >= 2) return toast.error('Sorry, you cannot borrow more books', { position: 'top-right' });
+
+      if (duplicate) return toast.error('Sorry, you cannot borrow another copy of this book', { position: 'top-right' });
+        
+      const borrowedClone = [...borrowed]
+      // eslint-disable-next-line no-restricted-globals
+      const accept = confirm('Are you sure you want to borrow a book?')
+      if (accept) {
+        borrowedClone.push(book)
+        await Axios.init().patch('/update', { borrowedbooks: borrowedClone })
+        await Axios.init().patch(`/book/${book.id}`, { quantity: book.quantity - 1 })
+      }
+      return history().push('/borrowed');
+    } catch(err) {
+      console.log(err);
     }
   }
 

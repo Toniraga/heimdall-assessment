@@ -20,6 +20,33 @@ const update = catchAsync(async (req, res, next) => {
 	});
 });
 
+const updateBook = catchAsync(async (req, res, next) => {
+	// Update book
+	const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, {
+		new: true,
+		runValidators: true,
+	});
+
+	res.status(200).json({
+		status: 'success',
+		book: updatedBook,
+	});
+});
+
+const getUser = catchAsync(async (req, res, next) => {
+	const query = User.findById(req.params.id);
+	const user = await query;
+
+	if (!user) {
+		return next(new AppError('No User Found With That ID', 404));
+	}
+
+	res.status(200).json({
+		status: 'success',
+		user,
+	});
+});
+
 const getAllBooks = catchAsync(async (_, res, next) => {
 	const books = await Book.find();
 
@@ -50,6 +77,8 @@ const getBook = catchAsync(async (req, res, next) => {
 
 module.exports = {
 	update,
+	getUser,
+	updateBook,
 	getAllBooks,
 	getBook,
 };

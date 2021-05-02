@@ -1,10 +1,15 @@
 import React from 'react';
 import Book from '../components/Book';
 import { useFetchBooks } from '../hooks/books';
+import { useFetchUser } from '../hooks/user';
+import { useLocation } from 'react-router-dom';
 
 const Library = () => {
-  const { data, loading } = useFetchBooks();
-  console.log(data, loading);
+  const { data } = useFetchBooks();
+  const userId =
+    new URLSearchParams(useLocation().search).get('id');
+  const { isFetched, isError, user } = useFetchUser(userId)
+  const borrowedArr = user?.borrowedbooks || user?.pages[0]?.user.borrowedbooks;
 
   return (
     <>
@@ -17,15 +22,18 @@ const Library = () => {
         </div>
         <div className="w-5/6 md:w-3/5 mx-auto">
           <div className="grid grid-cols-medium-auto-fill md:grid-cols-auto-fill">
-          {data ? (
+          {data && !isError && isFetched ? (
             data?.map((datum, i) => {
               return (
                 <div key={i}> 
-                  <Book book={datum} />
+                  <Book 
+                    book={datum}
+                    borrowed={borrowedArr}
+                  />
                 </div>
               )
             })) : (
-              <div> Sorry, We couldn't fint any books </div>
+              <div> Loading... </div>
           )}
           </div>
         </div>
